@@ -1,6 +1,6 @@
 <p align="center"><img src="src/icons/better-tags.png" width="80" height="80" alt="Better Tags logo"></p>
 
-# Better-Tags-for-Zotero
+# Better Tags for Zotero
 
 [中文说明](README.zh-CN.md) · [Downloads](https://github.com/Pigggggggggg/Better-tags-for-Zotero/releases) · [Report an issue](https://github.com/Pigggggggggg/Better-tags-for-Zotero/issues)
 

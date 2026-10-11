@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Better Tags",
+  "version": "1.0.1",
+  "description": "嵌入 Zotero 左侧的分组标签导航，共用原生文献列表和搜索，支持多选筛选与批量整理。",
+  "author": "Better Tags contributors",
+  "icons": {
+    "32": "icons/better-tags.png",
+    "48": "icons/better-tags.png",
+    "96": "icons/better-tags.png"
+  },
+  "applications": {
+    "zotero": {
+      "id": "tag-workspace@local.tools",
+      "update_url": "https://tag-workspace.invalid/updates.json",
+      "strict_min_version": "10.0",
+      "strict_max_version": "10.0.*"
+    }
+  }
+}

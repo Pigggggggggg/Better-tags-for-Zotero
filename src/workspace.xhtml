@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Better Tags</title>
+  <link rel="stylesheet" href="workspace.css"/>
+  <script src="core.js" defer="defer"></script>
+  <script src="titles.js" defer="defer"></script>
+  <script src="groups.js" defer="defer"></script>
+  <script src="workspace.js" defer="defer"></script>
+</head>
+<body>
+  <main>
+    <aside class="sidebar" aria-label="标签导航">
+      <select id="library" aria-label="当前文库" title="筛选范围为整个当前文库"></select>
+      <div class="side-heading"><h2>标签 <span id="tag-count" class="muted"></span></h2><span class="caption" title="单击切换；Alt＋单击增减多选，松开 Alt 保留已选标签">Alt＋单击多选</span></div>
+      <div class="tag-search-row"><label class="sr-only" for="tag-search">查找标签或分组</label><input id="tag-search" type="search" placeholder="查找标签或分组…"/><button id="new-group" class="circle-button subtle" title="新建标签分组" aria-label="新建标签分组">New</button></div>
+      <label class="checkline"><input id="manual-only" type="checkbox"/>仅显示手动标签</label>
+      <div id="tag-list" class="tag-list" aria-label="可选标签"></div>
+      <details class="presets"><summary>常用组合</summary><div id="presets"></div><button id="save-preset" class="wide subtle">＋ 保存当前筛选</button></details>
+    </aside>
+    <section class="workspace" aria-label="文献筛选和结果">
+      <div class="filter-card">
+        <div class="filter-row"><div class="match-modes" role="group" aria-label="标签匹配方式"><button id="mode-all" class="circle-button" aria-pressed="true" title="同时满足全部已选标签">All</button><button id="mode-any" class="circle-button" aria-pressed="false" title="满足任意一个已选标签">ANY</button></div><div id="selected-tags" class="selected-tags" aria-label="已选标签"></div><button id="clear" class="subtle">清空</button><label class="sr-only" for="query">搜索文献</label><input id="query" type="search" placeholder="搜索文献…" title="搜索标题、作者、年份或标签"/><label class="checkline untagged-filter"><input id="untagged" type="checkbox"/>未打标签</label></div>
+        <p id="scope-note" class="caption">范围：整个当前文库 · 不受分类文件夹限制</p>
+      </div>
+      <div class="results-heading"><h2>文献 <span id="result-count">0</span><span id="total-count" class="muted"></span></h2><div><button id="import-selected" class="subtle" title="导入 Zotero 主窗口中选中的文献">导入所选</button><select id="sort" aria-label="结果排序"><option value="title">按标题</option><option value="year">年份降序</option><option value="added">最近添加</option></select></div></div>
+      <div id="results-scroll" class="table-wrap" tabindex="0" aria-label="文献结果，滚动查看全部条目"><table><thead><tr><th class="select-cell"><input id="select-all" type="checkbox" aria-label="选择全部筛选结果" title="选择全部筛选结果，包括尚未滚动到的条目"/></th><th>标题 / 作者</th><th class="year-cell">年份</th><th class="tags-cell">标签</th></tr></thead><tbody id="results"></tbody></table><div id="empty" class="empty" hidden="hidden"><strong>没有匹配的文献</strong><p>试试减少标签条件，或切换为「ANY」。</p><button id="empty-reset">清空筛选</button></div></div>
+      <details id="batch-editor" class="batch" aria-label="批量标签编辑"><summary>整理标签 <span id="selection-count">已选 0 篇</span></summary><div class="batch-controls"><textarea id="tag-input" rows="2" aria-label="批量标签，每行一个" placeholder="输入标签，每行一个"></textarea><div><button id="add-tags" class="primary" disabled="disabled">添加</button><button id="remove-tags" disabled="disabled">移除…</button><button id="undo" class="subtle" disabled="disabled">撤销</button></div></div><p id="edit-hint" class="caption">新增标签会保存为 Zotero 原生手动标签。空格和逗号属于标签名称。</p></details>
+    </section>
+  </main>
+  <footer><span id="status" role="status" aria-live="polite">正在读取文库…</span><span>1.7</span></footer>
+  <dialog id="preset-dialog"><form method="dialog"><h2>保存筛选组合</h2><p>下次可一键恢复当前文库与筛选条件。</p><label for="preset-name">组合名称</label><input id="preset-name" maxlength="80" placeholder="例如：待读的机器学习论文"/><p id="preset-error" class="error-text"></p><div class="dialog-actions"><button value="cancel">取消</button><button id="confirm-preset" type="button" class="primary">保存组合</button></div></form></dialog>
+  <dialog id="remove-dialog"><h2>移除所选条目的标签</h2><p id="remove-description"></p><pre id="remove-names"></pre><p class="caption">只移除这些条目上的指定标签。完成后可撤销上次修改。</p><div class="dialog-actions"><button id="cancel-remove">取消</button><button id="confirm-remove" class="danger">确认移除</button></div></dialog>
+  <dialog id="group-dialog" aria-labelledby="group-dialog-title">
+    <h2 id="group-dialog-title">新建标签分组</h2>
+    <div class="group-fields"><div><label for="group-name">分组名称</label><input id="group-name" maxlength="80" placeholder="例如：电池材料"/></div><div><label for="group-parent">父分组</label><select id="group-parent"></select></div></div>
+    <label for="group-tag-search">选择放入本组的标签</label><input id="group-tag-search" type="search" placeholder="搜索已有标签…"/>
+    <p id="group-member-count" class="caption"></p><div id="group-members"></div>
+    <p class="caption">本组筛选同时包含所有子组。层级结构仅保存在本机。</p>
+    <p id="group-error" class="error-text" role="alert"></p>
+    <div class="dialog-actions"><button id="delete-group" class="danger">删除分组…</button><span class="spacer"></span><button id="cancel-group">取消</button><button id="save-group" class="primary">保存分组</button></div>
+  </dialog>
+  <dialog id="delete-group-dialog"><h2>删除分组结构</h2><p id="delete-group-description"></p><div class="dialog-actions"><button id="cancel-delete-group">取消</button><button id="confirm-delete-group" class="danger">确认删除分组</button></div></dialog>
+</body>
+</html>

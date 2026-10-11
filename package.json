@@ -1,0 +1,21 @@
+{
+  "name": "zotero-better-tags",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Grouped tag navigation embedded in Zotero's main window",
+  "license": "MIT",
+  "author": "Shuaifei",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pigggggggggg/Better-tags-for-Zotero.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pigggggggggg/Better-tags-for-Zotero/issues"
+  },
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1",
+    "package:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-source.ps1"
+  }
+}
